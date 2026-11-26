@@ -1,0 +1,103 @@
+\chapter{选题依据}
+
+\section{选题背景意义}
+说明课题背景、研究必要性及其学术价值或应用价值。
+
+\section{国内外研究现状}
+围绕拟研究的问题梳理已有工作，比较研究所用的方法、证据与适用条件。
+
+\subsection{研究方向一}
+归纳具有代表性的研究。上标引文写法见示例\cite{sample-book}。
+
+\MasterLevelFour{代表性工作}
+四级标题使用括号编号。此处填写代表性工作的发现及其局限。
+
+\subsection{研究方向二}
+概括发展趋势，并说明尚待解决的问题如何引出本课题。
+
+\chapter{研究目标与研究内容}
+
+\section{研究目标}
+列出拟达到的总体目标与具体目标。
+
+\section{研究内容}
+图~\ref{fig:proposal-roadmap}为技术路线示例。可修改图中文字和连接，或用 PDF、PNG 等替换。
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    roadmap box/.style={draw, minimum width=27mm, minimum height=9mm, align=center},
+    roadmap arrow/.style={-{Latex}, line width=0.5bp},
+    node distance=8mm
+  ]
+    \node[roadmap box] (question) {界定问题};
+    \node[roadmap box, right=of question] (method) {建立方法};
+    \node[roadmap box, right=of method] (assessment) {验证与评价};
+    \draw[roadmap arrow] (question) -- (method);
+    \draw[roadmap arrow] (method) -- (assessment);
+  \end{tikzpicture}
+  \caption{技术路线示例}
+  \label{fig:proposal-roadmap}
+\end{figure}
+
+\subsection{研究内容一}
+说明具体任务、研究对象和拟交付的阶段结果。
+
+\subsection{研究内容二}
+说明各项任务的衔接关系及后续验证。
+
+\section{拟解决的关键问题}
+说明关键问题、当前难点和判断问题是否解决的依据。
+
+\chapter{拟采用的研究方案}
+
+\section{研究方法与实施步骤}
+明确所采用的方法、数据或实验条件、关键实施步骤和对照设计。
+
+\subsection{方法及参数定义}
+例如，可用式~\eqref{eq:proposal-example}演示公式编号和物理量释义。
+\begin{equation}
+  y = f(x).
+  \label{eq:proposal-example}
+\end{equation}
+\noindent 其中，$x$ 为输入量，$y$ 为输出量，$f$ 为映射函数。
+
+\section{验证方案}
+说明评价指标、对照条件及结果判定方法。
+
+\chapter{可行性分析}
+
+\section{已有基础与实施条件}
+说明可以使用的数据、设备、人员与方法基础。
+
+\section{关键风险与应对措施}
+说明关键风险及相应的替代方案。
+
+\chapter{预期目标与成果}
+
+\section{预期目标}
+写明开题后拟达到的定性或定量目标。
+
+\section{预期成果}
+列出预期形成的论文、软件、实验数据、原型或其他成果。
+
+\chapter{论文进度安排}
+
+论文进度安排见表~\ref{tab:proposal-schedule}，按实际执行时间填写。
+
+\begin{table}[htbp]
+  \centering
+  \caption{学位论文时间进度安排表}
+  \label{tab:proposal-schedule}
+  \begin{MasterTable}
+  \begin{tabularx}{0.9\textwidth}{@{}l>{\raggedright\arraybackslash}X@{}}
+    \toprule
+    时间 & 内容 \\
+    \midrule
+    YYYY年MM月--YYYY年MM月 & 文献调研、明确研究问题及评价方案。 \\
+    YYYY年MM月--YYYY年MM月 & 实施研究方案，收集并整理实验结果。 \\
+    YYYY年MM月--YYYY年MM月 & 完成分析、撰写及修改学位论文。 \\
+    \bottomrule
+  \end{tabularx}
+  \end{MasterTable}
+\end{table}
