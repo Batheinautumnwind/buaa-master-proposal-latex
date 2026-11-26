@@ -1,0 +1,222 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{buaa-master}[2026/11/26 BUAA master's proposal and literature review]
+% 以现有 buaa-review.sty 的字体、几何、封面、标题、图表与引文机制为基础。
+\RequirePackage{iftex}
+\RequireXeTeX
+\newif\ifMasterProposal
+\newif\ifMasterProfessional
+\newif\ifMasterShowFigureList
+\newif\ifMasterShowTableList
+\newif\ifMasterShowSymbols
+\newif\ifMasterShowAbbreviations
+\DeclareOption{proposal}{\MasterProposaltrue}
+\ProcessOptions\relax
+
+% 可选的本地原字体与系统同名字体优先，TeX Live 自带字体提供回退。
+\IfFileExists{fonts/times.ttf}{%
+  \setmainfont{times.ttf}[Path=fonts/,BoldFont=timesbd.ttf,
+    ItalicFont=timesi.ttf,BoldItalicFont=timesbi.ttf]%
+}{%
+  \IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{%
+    \setmainfont{texgyretermes-regular.otf}[BoldFont=texgyretermes-bold.otf,
+      ItalicFont=texgyretermes-italic.otf,BoldItalicFont=texgyretermes-bolditalic.otf]}%
+}
+\IfFileExists{fonts/simsun.ttc}{%
+  \setCJKmainfont{simsun.ttc}[Path=fonts/,FontIndex=0,AutoFakeBold=2.5]%
+}{%
+  \IfFontExistsTF{SimSun}{\setCJKmainfont{SimSun}[AutoFakeBold=2.5]}{%
+    \setCJKmainfont{FandolSong-Regular.otf}[BoldFont=FandolSong-Bold.otf]}%
+}
+\IfFileExists{fonts/simhei.ttf}{%
+  \setCJKsansfont{simhei.ttf}[Path=fonts/,AutoFakeBold=2.5]%
+}{%
+  \IfFontExistsTF{SimHei}{\setCJKsansfont{SimHei}[AutoFakeBold=2.5]}{%
+    \setCJKsansfont{FandolHei-Regular.otf}[BoldFont=FandolHei-Bold.otf]}%
+}
+\providecommand{\songti}{\CJKfamily{\CJKrmdefault}}
+\providecommand{\heiti}{\CJKfamily{\CJKsfdefault}}
+\IfFileExists{fonts/STXINGKA.TTF}{%
+  \newCJKfontfamily\MasterCoverFont{STXINGKA.TTF}[Path=fonts/]%
+}{%
+  \IfFontExistsTF{STXingkai}{\newCJKfontfamily\MasterCoverFont{STXingkai}}{%
+    \newCJKfontfamily\MasterCoverFont{FandolKai-Regular.otf}}%
+}
+
+\RequirePackage{geometry}
+\geometry{a4paper,top=25mm,bottom=25mm,left=25mm,right=25mm,
+  headheight=11bp,headsep=\dimexpr10mm-11bp\relax,footskip=10mm}
+\RequirePackage{graphicx,amsmath,amssymb,booktabs,array,longtable,tabularx}
+\RequirePackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\RequirePackage{fancyhdr,titletoc,caption,subcaption}
+\RequirePackage[super,square,comma,sort&compress]{natbib}
+\RequirePackage[hidelinks,unicode]{hyperref}
+\RequirePackage{xurl}
+\graphicspath{{figures/}}
+\urlstyle{same}
+\pdfstringdefDisableCommands{\def\\{ }}
+
+\linespread{1}\selectfont
+\raggedbottom
+\setlength{\parindent}{2\ccwd}
+\setlength{\parskip}{0pt}
+% bp 与 Word 磅一致。正文选用学院允许的固定 24 磅。
+\renewcommand{\normalsize}{\@setfontsize\normalsize{12bp}{24bp}%
+  \abovedisplayskip=6bp plus 2bp minus 2bp
+  \belowdisplayskip=6bp plus 2bp minus 2bp
+  \abovedisplayshortskip=0bp plus 2bp
+  \belowdisplayshortskip=6bp plus 2bp minus 2bp}
+\AtBeginDocument{\normalsize\songti}
+\emergencystretch=2em
+\renewcommand{\cleardoublepage}{%
+  \clearpage
+  \ifodd\c@page\else
+    \hbox{}\thispagestyle{empty}\newpage
+  \fi}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.9}
+\renewcommand{\textfraction}{0.05}
+
+\ctexset{
+  chapter={name={第,章},number=\chinese{chapter},
+    format=\centering\normalfont\heiti\fontsize{16bp}{16bp}\selectfont,
+    beforeskip=8bp,afterskip=8bp,fixskip=true,pagestyle=masterbody},
+  section={format=\raggedright\normalfont\heiti\fontsize{14bp}{14bp}\selectfont,
+    beforeskip=7.8bp,afterskip=7.8bp},
+  subsection={format=\raggedright\normalfont\heiti\fontsize{12bp}{12bp}\selectfont,
+    beforeskip=7.8bp,afterskip=7.8bp}}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\renewcommand{\chaptermark}[1]{\markboth{第\chinese{chapter}章\quad #1}{}}
+\newcounter{masterlevelfour}[subsection]
+\newcommand{\MasterLevelFour}[1]{%
+  \par\stepcounter{masterlevelfour}%
+  \noindent（\arabic{masterlevelfour}）#1\par\nobreak\@afterheading}
+
+\newcommand{\MasterDegree}{\ifMasterProfessional 专业硕士\else 硕士\fi}
+\newcommand{\MasterReviewName}{%
+  \ifMasterProfessional 文献（技术）综述\else 文献（研究）综述\fi}
+\newcommand{\MasterHeaderName}{北京航空航天大学\MasterDegree 学位论文%
+  \ifMasterProposal 开题报告\else 文献综述\fi}
+\fancypagestyle{masterfront}{%
+  \fancyhf{}\renewcommand{\headrulewidth}{0pt}%
+  \fancyfoot[C]{\normalfont\fontsize{10.5bp}{10.5bp}\selectfont\thepage}}
+\fancypagestyle{masterbody}{%
+  \fancyhf{}\renewcommand{\headrulewidth}{0.75bp}%
+  \fancyhead[CO]{\normalfont\songti\fontsize{9bp}{9bp}\selectfont\MasterHeaderName}
+  \fancyhead[CE]{\normalfont\songti\fontsize{9bp}{9bp}\selectfont\nouppercase{\leftmark}}
+  \fancyfoot[C]{\normalfont\fontsize{10.5bp}{10.5bp}\selectfont\thepage}}
+
+\fancypagestyle{masterreferences}[masterbody]{%
+  \fancyhead[CE,CO]{\normalfont\songti\fontsize{9bp}{9bp}\selectfont\bibname}}
+
+% 封面使用原工程的校徽和 A4 绝对定位骨架。学位类型仅显示选中的一种。
+\newcommand{\MasterCover}[1]{%
+  \thispagestyle{empty}\hypersetup{pageanchor=false,pdftitle={#1}}%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=north,inner sep=0pt] at ([yshift=-32mm]current page.north)
+      {\includegraphics[width=108mm]{buaa-logo.png}};
+    \node[anchor=north,inner sep=0pt] at ([yshift=-65.68mm]current page.north)
+      {\MasterCoverFont\fontsize{42bp}{42bp}\selectfont
+        \MasterDegree\ifMasterProposal\else 学位论文\fi};
+    \node[anchor=north,inner sep=0pt] at ([yshift=-89.4mm]current page.north)
+      {\MasterCoverFont\fontsize{42bp}{42bp}\selectfont
+        \ifMasterProposal 学位论文开题报告\else\MasterReviewName\fi};
+    \node[anchor=north,inner sep=0pt,text width=170mm,align=center]
+      at ([yshift=-113mm]current page.north)
+      {\songti\bfseries\fontsize{32bp}{43bp}\selectfont #1\par};
+    \node[anchor=north west,inner sep=0pt,text width=131mm,align=left]
+      at ([xshift=54mm,yshift=-171mm]current page.north west)
+      {\heiti\fontsize{16bp}{33.6bp}\selectfont
+       \makebox[100bp][l]{作\hfill 者\hfill 姓\hfill 名\hfill ：}\MasterAuthor\\
+       \makebox[100bp][l]{作\hfill 者\hfill 学\hfill 号\hfill ：}\MasterStudentID\\
+       \makebox[100bp][l]{学\hfill 科\hfill 专\hfill 业\hfill ：}\MasterMajor\\
+       \makebox[100bp][l]{指\hfill 导\hfill 教\hfill 师\hfill ：}\MasterSupervisor\\
+       \makebox[100bp][l]{培\hfill 养\hfill 院\hfill 系\hfill ：}\MasterDepartment\par};
+    \node[anchor=north,inner sep=0pt] at ([yshift=-247.7mm]current page.north)
+      {\heiti\fontsize{15bp}{15bp}\selectfont\MasterDate};
+  \end{tikzpicture}\null
+}
+\newcommand{\MasterBeginFrontMatter}{%
+  \frontmatter\pagenumbering{Roman}\pagestyle{masterfront}%
+  \hypersetup{pageanchor=true}}
+\newcommand{\MasterBeginBody}{%
+  \cleardoublepage\mainmatter\pagestyle{masterbody}}
+
+\newcommand{\MasterFrontTitle}[1]{%
+  \clearpage\thispagestyle{masterfront}%
+  {\centering\heiti\bfseries\fontsize{16bp}{16bp}\selectfont #1\par}\vspace{24bp}}
+\newenvironment{MasterAbstract}[1]{%
+  \cleardoublepage\MasterFrontTitle{#1}%
+  \fontsize{12bp}{23.4bp}\selectfont
+}{\par}
+\newcommand{\ChineseKeywords}[1]{\par\vspace{\baselineskip}%
+  {\heiti\textbf{关键词}：#1\par}}
+\newcommand{\EnglishKeywords}[1]{\par\vspace{\baselineskip}%
+  \textbf{Keywords}: #1\par}
+
+% 图表标题和目录页自动读取实际编号及页码。
+\newcommand{\MasterContentsIndent}{%
+  \ifx\thecontentslabel\@empty\else
+    \settowidth{\hangindent}{\thecontentslabel\quad}%
+  \fi}
+\titlecontents{chapter}[0pt]{\heiti\fontsize{12bp}{23bp}\selectfont\MasterContentsIndent}
+  {\thecontentslabel\quad}{}{\titlerule*[4pt]{.}\contentspage}
+\titlecontents{section}[1\ccwd]{\songti\fontsize{12bp}{22bp}\selectfont\MasterContentsIndent}
+  {\thecontentslabel\quad}{}{\titlerule*[4pt]{.}\contentspage}
+\titlecontents{subsection}[2\ccwd]{\songti\fontsize{12bp}{22bp}\selectfont\MasterContentsIndent}
+  {\thecontentslabel\quad}{}{\titlerule*[4pt]{.}\contentspage}
+\titlecontents{figure}[0pt]{\songti\fontsize{12bp}{24bp}\selectfont}
+  {图\thecontentslabel\quad}{}{\titlerule*[4pt]{.}\contentspage}
+\titlecontents{table}[0pt]{\songti\fontsize{12bp}{24bp}\selectfont}
+  {表\thecontentslabel\quad}{}{\titlerule*[4pt]{.}\contentspage}
+\newcommand{\MasterContents}{%
+  \clearpage\thispagestyle{masterfront}%
+  {\centering\heiti\bfseries\fontsize{18bp}{18bp}\selectfont 目\quad 录\par}\vspace{18bp}%
+  \@starttoc{toc}%
+  \ifMasterShowFigureList
+    \MasterFrontTitle{插图清单}\@starttoc{lof}%
+  \fi
+  \ifMasterShowTableList
+    \MasterFrontTitle{附表清单}\@starttoc{lot}%
+  \fi}
+
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\DeclareCaptionFont{master}{\songti\fontsize{10.5bp}{16bp}\selectfont}
+\DeclareCaptionLabelSeparator{twospaces}{\space\space}
+\captionsetup{font={master,bf},labelsep=twospaces,justification=centering}
+\captionsetup[figure]{position=bottom,skip=6bp}
+\captionsetup[table]{position=top,skip=6bp}
+\captionsetup[subfigure]{font={master},labelfont=normalfont,textfont=normalfont,
+  labelformat=parens,labelsep=space}
+\setlength{\heavyrulewidth}{1.5bp}
+\ifMasterProposal
+  \setlength{\lightrulewidth}{1.0bp}
+\else
+  \setlength{\lightrulewidth}{0.5bp}
+\fi
+\newenvironment{MasterTable}{\songti\fontsize{10.5bp}{16bp}\selectfont}{}
+
+\newcommand{\MasterBibliography}[1]{%
+  \ifMasterProposal\cleardoublepage\else\clearpage\fi
+  \pagestyle{masterreferences}%
+  \bibliographystyle{styles/buaa-master-2015}%
+  \bibliography{#1}}
+\renewcommand{\bibname}{参考文献}
+\renewcommand{\bibsection}{%
+  \chapter*{\bibname}\thispagestyle{masterreferences}%
+  \addcontentsline{toc}{chapter}{\bibname}}
+\renewcommand{\bibfont}{%
+  \normalfont\songti\fontsize{10.5bp}{16bp}\selectfont\interlinepenalty=10000}
+\setlength{\bibsep}{3bp}
+\setlength{\bibhang}{21bp}
+% 一般保留两汉字悬挂缩进，三位数以上的编号按实际宽度扩展。
+\renewcommand{\bibnumfmt}[1]{\makebox[\labelwidth][l]{[#1]}}
+\renewcommand{\NAT@bibsetnum}[1]{%
+  \settowidth{\labelwidth}{[#1]}%
+  \ifdim\labelwidth<18bp \setlength{\labelwidth}{18bp}\fi
+  \setlength{\labelsep}{3bp}%
+  \setlength{\leftmargin}{\dimexpr\labelwidth+\labelsep\relax}%
+  \setlength{\itemindent}{0pt}\setlength{\listparindent}{0pt}%
+  \setlength{\itemsep}{\bibsep}\setlength{\parsep}{0pt}}

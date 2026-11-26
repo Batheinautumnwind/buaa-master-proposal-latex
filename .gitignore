@@ -1,0 +1,16 @@
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.synctex.gz
+*.toc
+*.xdv
+/master-proposal.pdf
+/master-review.pdf
+/fonts/
+.DS_Store
