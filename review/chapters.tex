@@ -1,0 +1,62 @@
+\chapter{绪论}
+
+\section{背景意义}
+介绍所属研究方向、问题背景及开展综述的意义。
+
+\section{文献概述}
+说明文献覆盖范围和分类，概括主要研究分支。上标引文写法见示例\cite{sample-book,sample-article}。
+
+\chapter{研究分支一}
+
+\section{研究现状}
+按理论、方法、方案或技术比较代表性工作，说明已有成果解决了哪些问题。
+
+\subsection{代表性方法}
+图~\ref{fig:review-framework}为图题及交叉引用的用法示例，可替换为与主题相关的插图。
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[box/.style={draw,minimum width=29mm,minimum height=9mm},
+    node distance=8mm]
+    \node[box] (work) {代表性工作};
+    \node[box, right=of work] (result) {已有进展};
+    \node[box, right=of result] (gap) {待解难点};
+    \draw[-{Latex}] (work) -- (result);
+    \draw[-{Latex}] (result) -- (gap);
+  \end{tikzpicture}
+  \caption{研究现状归纳框架示例}
+  \label{fig:review-framework}
+\end{figure}
+
+\subsection{方法比较}
+表~\ref{tab:review-comparison}示范三线表的写法。
+
+\begin{table}[htbp]
+  \centering
+  \caption{代表性工作对比示例}
+  \label{tab:review-comparison}
+  \begin{MasterTable}
+  \begin{tabular}{@{}lll@{}}
+    \toprule
+    对比维度 & 方法一 & 方法二 \\
+    \midrule
+    适用条件 & 按原文填写 & 按原文填写 \\
+    评价依据 & 按原文填写 & 按原文填写 \\
+    \bottomrule
+  \end{tabular}
+  \end{MasterTable}
+\end{table}
+
+\section{发展趋势}
+讨论制约研究进展的难点及结合已有证据可预见的发展趋势。
+
+\chapter{研究分支二}
+
+\section{研究现状}
+按统一维度概括该分支的代表性成果、现有方法的适用条件和待解问题。
+
+\section{发展趋势}
+联系不同技术路线的证据与局限，讨论后续研究方向。
+
+\chapter{结论}
+综合各研究分支的进展与不足，归纳仍待解决的关键问题，并据此提出本课题拟研究的问题。
